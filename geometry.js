@@ -1,3 +1,15 @@
+function setAnimationImage(surface){
+  surface.texture=LoadAnimationImage.getTexture(
+    "https://res.cloudinary.com/mvitello/image/upload/v1572481204/photo/44_vcbmjb.jpg"
+  );
+}
+
+function setShader() {
+  window.ASSETS=[
+    "https://raw.githubusercontent.com/mattvitello/geometry/main/assets/shaders/shader.glsl"
+  ];
+}
+
 window.Global={};window.Class=function(func,type){var _this=this;var name=func.toString().match(/function ([^\(]+)/)[1];var TempType=null;if(typeof type==="function"){TempType=type;type=null}
   if(type!=null||type!=undefined){type=type.toLowerCase();}
   if(!type){_this[name]=func;TempType&&TempType()}
@@ -53,11 +65,11 @@ else{return false}}}};},"Static");Class(function Events(c){this.events={};var b=
   else{c(contents);b()}};this.getShader=function(e){if(d.FALLBACKS){if(d.FALLBACKS[e]){e=d.FALLBACKS[e]}}
     return d[e]}},"static");Class(function AssetLoader(_assets,_complete,_images){Inherit(this,MVC);var _this=this;var _queue;(function(){_queue=[];_queue.push(_assets[0])
   XHR.get(_queue[0],function(contents){Shaders.parse(contents,_queue[1]);Render.nextFrame(function(){_this.events.fire(HydraEvents.COMPLETE,null,true)})},"text");})();},function(){});Class(function XHR(){this.get=function(f,j,l,h){var k=new XMLHttpRequest();k.open("GET",f,true);k.send();k.onreadystatechange=function(){if(k.readyState==4&&(k.status==200)){var m=k.responseText;j(m)
-  k=null}}};},"Static");window.ASSETS=["shaders/shader.glsl"];Class(function AssetUtil(){var d=this;var c={};var b=["!!!"];this.PATH="";function a(g,e){for(var f=0;f<b.length;f++){var h=b[f];if(g.strpos(h)&&e!=h){return false}}return true}
+  k=null}}};},"Static");setShader();Class(function AssetUtil(){var d=this;var c={};var b=["!!!"];this.PATH="";function a(g,e){for(var f=0;f<b.length;f++){var h=b[f];if(g.strpos(h)&&e!=h){return false}}return true}
   this.loadAssets=function(j){j=[j];var h=[];h.push(ASSETS[0]);var e=[];var g=h[0];e.push(g.strpos("http")?g:d.PATH+g);return e};},"Static");Class(function ATUtil(){Inherit(this,MVC);var e=this;var a;(function(){c()})();function c(){e.events.subscribe(HydraEvents.RESIZE,b)}
   function b(){if(Device.mobile){e.events.fire("resize")}
   else{clearTimeout(a);e.events.fire("resize")}}},"static");Class(function Shader(f,b,a,d){Inherit(this,MVC);var e=this;this.get("material",function(){var g={};g.vertexShader=Shaders.getShader(f+".vs");g.fragmentShader=Shaders.getShader(b+".fs");g.uniforms=e.uniforms
-  d=new THREE.ShaderMaterial(g);return d});});Class(function LoadHomeImage(){var e=this;var b={};this.getTexture=function(j){if(!b[j]){var f=new Image();f.crossOrigin="";f.src=j;var g=new THREE.Texture(f);f.onload=function(){g.needsUpdate=true;if(g.onload){g.onload();g.onload=null}};b[j]=g;g.minFilter=THREE.LinearFilter}
+  d=new THREE.ShaderMaterial(g);return d});});Class(function LoadAnimationImage(){var e=this;var b={};this.getTexture=function(j){if(!b[j]){var f=new Image();f.crossOrigin="";f.src=j;var g=new THREE.Texture(f);f.onload=function(){g.needsUpdate=true;if(g.onload){g.onload();g.onload=null}};b[j]=g;g.minFilter=THREE.LinearFilter}
   return b[j]};},"static");Class(function Container(){Inherit(this,Controller);var g=this;var p;var x=0;var n,f,j;var e;(function(){c();o();})();function c(){p=g.container;Stage.add(p)}
   function o(){var r=g.initClass(Loader);r.events.add(Loader.LOAD_GL,l);r.events.add(HydraEvents.COMPLETE,function(){})}
   function l(u){var v=function(){this.test=function(g){defer(g)};return Pact.create(this.test)};var r=function(){f=g.initClass(Div1);return this.exec(f.test)}
@@ -73,13 +85,7 @@ else{return false}}}};},"Static");Class(function Events(c){this.events={};var b=
   function f(){o.update();n.clearDepth();n.render(m.scene,a);n.clearDepth();n.render(o.scene,a);}
   function j(){g.events.subscribe("resize",b)}
   function b(){a.position.z=h();a.aspect=Stage.width / Stage.height;a.updateProjectionMatrix();n.setSize(Stage.width,Stage.height);o.resize();}
-  this.start=function(){Render.start(f)};});Class(function Texture(){Inherit(this,MVC);var g=this;(function(){f()})();
-
-  /* Insert Image Here */
-  function f(){
-    g.texture=LoadHomeImage.getTexture("");
-  }
-
+  this.start=function(){Render.start(f)};});Class(function Texture(){Inherit(this,MVC);var g=this;(function(){setAnimationImage(g)})();
   });Class(function Plane(b){Inherit(this,MVC);var h=this;var f,g;this.scene=new THREE.Object3D();(function(){e();a();c()})();function e(){g=h.initClass(Shader,"BGImage","BGImage");g.uniforms={aspect:{type:"fv1",value:[]},}}
   function a(){var j=new THREE.PlaneGeometry(Stage.width,Stage.height);f=new THREE.Mesh(j,g.material);h.scene.add(f);f.position.z+=200}
   function c(){var m=Stage.width;var j=m*(720 / 1280);if(j<Stage.height){j=Stage.height;m=j*(1280 / 720)}
